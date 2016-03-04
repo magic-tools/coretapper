@@ -11,6 +11,9 @@
     "output"
   ],
   "dependencies": {
-    "purescript-console": "^0.1.0"
+    "purescript-console":         "^0.1.0",
+    "purescript-argonaut-core":   "^0.2.3",
+    "purescript-node-fs-aff":     "^0.3.1",
+    "purescript-partial":         "^1.1.0"
   }
 }
