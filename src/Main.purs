@@ -8,9 +8,8 @@ import Data.Argonaut.Parser         (jsonParser)
 import Node.Encoding                (Encoding(UTF8))
 import Node.FS                      (FS())
 import Node.FS.Sync                 (readTextFile)
-import Partial.Unsafe               (unsafePartial)
+import Partial.Unsafe               (unsafePartial, unsafeCrashWith)
 import Prelude
-
 
 type MainEff a = Eff ( console :: CONSOLE
                      , fs      :: FS
@@ -24,3 +23,4 @@ main = do
   where
     g :: forall a b. (Partial) => Either a b -> b
     g (Right x) = x
+    g _         = unsafeCrashWith "Invalid JSON in priv/"
