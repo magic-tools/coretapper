@@ -12,6 +12,9 @@ import Node.FS.Sync                 (readTextFile)
 import Partial.Unsafe               (unsafePartial, unsafeCrashWith)
 import Prelude
 
+import Data.Foreign
+import Data.Foreign.Class
+
 import Data.Map as M
 
 newtype AllSets  = AllSets  { getAllSets  :: M.Map SetId Set }
@@ -45,11 +48,22 @@ type MainEff a = Eff ( console :: CONSOLE
                      , fs      :: FS
                      , err     :: EXCEPTION | a )
 
+data Test = Test { a :: Array String }
+
+instance foreignTest :: IsForeign Test where
+  read js = do
+    a <- readProp "a" js
+    return $ Test { a: a }
+
+instance showTest :: Show Test where
+  show (Test t) = "Test { a: " ++ show t.a ++ " }"
+
 main :: forall e. (MainEff e) Unit
 main = do
   x <- readTextFile UTF8 "priv/WIP.json"
   let y = (unsafePartial g <<< jsonParser) x
   (log <<< show) y
+  (log <<< show) (readJSON """{"a": ["foo", "bar"]}""" :: F Test)
   where
     g :: forall a b. (Partial) => Either a b -> b
     g (Right x) = x
