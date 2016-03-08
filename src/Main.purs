@@ -26,8 +26,11 @@ type MainEff a = Eff ( console :: CONSOLE
 main :: forall e. (MainEff e) Unit
 main = do
   x <- readTextFile UTF8 "priv/Cards.json"
+  y <- readTextFile UTF8 "priv/Sets.json"
   let cards = readJSON x :: F Cards
+  let sets  = readJSON y :: F Sets
   log $ show cards
+  log $ show sets
   where
     g :: forall a b. (Partial) => Either a b -> b
     g (Right x) = x

@@ -76,10 +76,9 @@ instance eqCard :: Eq Card where
 instance ordCard :: Ord Card where
   compare = gCompare
 
-data Set = Set { cards    :: Array Card
-               , booster  :: Maybe (Array CompRarity)
+data Set = Set { cards    :: Array CardId
                , code     :: SetId
-               , name     :: String }
+               , name     :: Maybe String }
 derive instance genericSet :: Generic Set
 instance showSet :: Show Set where
   show = gShow
@@ -123,3 +122,12 @@ instance isForeignCard :: FC.IsForeign Card where
                   , power:          power
                   , toughness:      toughness
                   , loyalty:        loyalty }
+
+instance isForeignSet :: FC.IsForeign Set where
+  read j = do
+    cards      <- FC.readProp "cards" j
+    code       <- FC.readProp "code" j
+    name       <- runNullOrUndefined <$> FC.readProp "name" j
+    return $ Set { cards: cards
+                 , code:  code
+                 , name:  name }
