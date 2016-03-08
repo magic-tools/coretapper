@@ -2,7 +2,9 @@
 -- For now, we naively say that everything is a String, later on
 -- we'll make a separate library which will provide very smart
 -- semantical types for Magic cards.
-module MTG.Cards ( Card(..)
+module MTG.Cards ( mkCards
+                 , mkSets
+                 , Card(..)
                  , CardId(..)
                  , CardType(..)
                  , Cards(..)
@@ -21,15 +23,34 @@ module MTG.Cards ( Card(..)
 import Prelude (class Ord, class Eq, class Show, return, ($), (<$>), bind)
 import Data.Generic (class Generic, gCompare, gEq, gShow)
 
+import Data.Array                      as A
 import Data.Either                     (Either(..))
---import Data.Foreign                    as F
+import Data.Foreign                    as F
 import Data.Foreign.Class              as FC
 import Data.Foreign.NullOrUndefined    (runNullOrUndefined)
 import Data.Map                        as M
-import Data.Maybe                      (Maybe())
+import Data.Maybe                      (Maybe(..))
+import Data.Tuple                      as T
 
-type Cards = Array Card
-type Sets  = Array Set
+map :: forall a b. (a -> b) -> Array a -> Array b
+map f = A.mapMaybe (\x -> Just $ f x)
+
+mkCards :: String -> F.F Cards
+mkCards j = g (FC.readJSON j :: F.F (Array Card))
+  where
+    g :: F.F (Array Card) -> F.F Cards
+    g (Left xs)  = Left xs
+    g (Right xs) = Right $ M.fromFoldable $ map (\(Card x) -> T.Tuple x.name (Card x)) xs
+
+mkSets :: String -> F.F Sets
+mkSets j = g (FC.readJSON j :: F.F (Array Set))
+  where
+    g :: F.F (Array Set) -> F.F Sets
+    g (Left xs)  = Left xs
+    g (Right xs) = Right $ M.fromFoldable $ map (\(Set x) -> T.Tuple x.code (Set x)) xs
+
+type Cards = M.Map CardId Card
+type Sets  = M.Map SetId  Set
 
 {--
 -- | I still have no idea regarding the way newtypes work
