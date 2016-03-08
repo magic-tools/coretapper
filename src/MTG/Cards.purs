@@ -18,7 +18,7 @@ module MTG.Cards ( Card(..)
                  , Toughness(..) ) where
 
 import Prelude
-import Data.Generic (class Generic, gCompare, gEq, gShow)
+import Data.Generic
 
 import Data.Either                     (Either(..))
 import Data.Foreign                    as F
@@ -104,12 +104,12 @@ instance isForeignCard :: FC.IsForeign Card where
     manaCost      <- FC.readProp "manaCost" j
     cmc           <- FC.readProp "cmc" j
     types         <- FC.readProp "types" j
-    subtypes      <- optProp  "subtypes" j
-    colors        <- optProp  "colors" j
-    colorRelation <- optProp  "colorRelation" j
-    power         <- optProp  "power" j
-    toughness     <- optProp  "toughness" j
-    loyalty       <- optProp  "loyalty" j
+    subtypes      <- runNullOrUndefined <$> FC.readProp  "subtypes" j
+    colors        <- runNullOrUndefined <$> FC.readProp  "colors" j
+    colorRelation <- runNullOrUndefined <$> FC.readProp  "colorRelation" j
+    power         <- runNullOrUndefined <$> FC.readProp  "power" j
+    toughness     <- runNullOrUndefined <$> FC.readProp  "toughness" j
+    loyalty       <- runNullOrUndefined <$> FC.readProp  "loyalty" j
     return $ Card { name:           name
                   , rarity:         Right rarity
                   , oracle:         oracle
@@ -122,5 +122,3 @@ instance isForeignCard :: FC.IsForeign Card where
                   , power:          power
                   , toughness:      toughness
                   , loyalty:        loyalty }
-    where
-      optProp x y = runNullOrUndefined <$> FC.readProp x y
