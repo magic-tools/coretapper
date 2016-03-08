@@ -25,6 +25,7 @@ data Set     = Set { cards   :: M.Map CardId Card
                    , booster :: M.Map Rarity Int
                    , code    :: SetId
                    , name    :: String }
+derive instance genericSet :: Generic Set
 
 type CardId   = String
 type Rarity   = String
