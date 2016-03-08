@@ -17,54 +17,17 @@ import Data.Foreign.Class
 
 import Data.Map as M
 
-newtype AllSets  = AllSets  { getAllSets  :: M.Map SetId Set }
-newtype AllCards = AllCards { getAllCards :: M.Map CardId Card }
-
-type SetId   = String
-data Set     = Set { cards   :: M.Map CardId Card
-                   , booster :: M.Map Rarity Int
-                   , code    :: SetId
-                   , name    :: String }
-derive instance genericSet :: Generic Set
-
-type CardId   = String
-type Rarity   = String
-type CardType = String
-data Color    = W
-              | U
-              | B
-              | R
-              | G
-
-data Card    = Card { name     :: CardId
-                    , rarity   :: Rarity
-                    , oracle   :: String
-                    , manaCost :: String
-                    , types    :: Array CardType
-                    , colors   :: Array Color
-                    , pt       :: Maybe String
-                    , sets     :: Array SetId }
+import MTG.Cards
 
 type MainEff a = Eff ( console :: CONSOLE
                      , fs      :: FS
                      , err     :: EXCEPTION | a )
 
-data Test = Test { a :: Array String }
-
-instance foreignTest :: IsForeign Test where
-  read js = do
-    a <- readProp "a" js
-    return $ Test { a: a }
-
-instance showTest :: Show Test where
-  show (Test t) = "Test { a: " ++ show t.a ++ " }"
-
 main :: forall e. (MainEff e) Unit
 main = do
-  x <- readTextFile UTF8 "priv/WIP.json"
-  let y = (unsafePartial g <<< jsonParser) x
-  (log <<< show) y
-  (log <<< show) (readJSON """{"a": ["foo", "bar"]}""" :: F Test)
+  x <- readTextFile UTF8 "priv/Cards.json"
+  let cards = readJSON x :: F Cards
+  log $ show cards
   where
     g :: forall a b. (Partial) => Either a b -> b
     g (Right x) = x

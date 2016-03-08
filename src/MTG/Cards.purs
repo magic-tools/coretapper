@@ -7,6 +7,7 @@ module MTG.Cards ( Card(..)
                  , CardType(..)
                  , Cards(..)
                  , Color(..)
+                 , CompRarity(..)
                  , Cost(..)
                  , Loyalty(..)
                  , Power(..)
@@ -17,19 +18,18 @@ module MTG.Cards ( Card(..)
                  , Subtype(..)
                  , Toughness(..) ) where
 
-import Prelude
-import Data.Generic
+import Prelude (class Ord, class Eq, class Show, return, ($), (<$>), bind)
+import Data.Generic (class Generic, gCompare, gEq, gShow)
 
 import Data.Either                     (Either(..))
-import Data.Foreign                    as F
+--import Data.Foreign                    as F
 import Data.Foreign.Class              as FC
 import Data.Foreign.NullOrUndefined    (runNullOrUndefined)
 import Data.Map                        as M
 import Data.Maybe                      (Maybe())
 
-newtype Sets   = Sets (M.Map SetId Set)
-
-newtype Cards  = Cards (M.Map CardId Card)
+type Cards = Array Card
+type Sets  = Array Set
 
 {--
 -- | I still have no idea regarding the way newtypes work
@@ -44,7 +44,8 @@ newtype Id a = Id { getId :: String }
 -- the backend to the browser
 
 -- | Sometimes Rarity is [ "mythic rare", "rare" ], hence `Left (Array String)` option
-type Rarity      = Either (Array String) String
+type CompRarity  = Either (Array String) String
+type Rarity      = String
 type CardType    = String
 type Color       = String
 type Cost        = String
@@ -56,11 +57,11 @@ type CardId      = String
 type SetId       = String
 
 data Card = Card { name             :: CardId
-                 , rarity           :: Rarity
-                 , oracle           :: String
-                 , manaCost         :: Cost
-                 , cmc              :: Int
-                 , types            :: Array CardType
+                 , rarity           :: Maybe Rarity
+                 , oracle           :: Maybe String
+                 , manaCost         :: Maybe Cost
+                 , cmc              :: Maybe Number
+                 , types            :: Maybe (Array CardType)
                  , subtypes         :: Maybe (Array Subtype)
                  , colors           :: Maybe (Array Color)
                  , colorRelation    :: Maybe (Array Color)
@@ -76,7 +77,7 @@ instance ordCard :: Ord Card where
   compare = gCompare
 
 data Set = Set { cards    :: Array Card
-               , booster  :: Maybe (Array Rarity)
+               , booster  :: Maybe (Array CompRarity)
                , code     :: SetId
                , name     :: String }
 derive instance genericSet :: Generic Set
@@ -99,19 +100,19 @@ readCardAcc (c:cs) m = M.insert
 instance isForeignCard :: FC.IsForeign Card where
   read j = do
     name          <- FC.readProp "name" j
-    rarity        <- FC.readProp "rarity" j
-    oracle        <- FC.readProp "oracle" j
-    manaCost      <- FC.readProp "manaCost" j
-    cmc           <- FC.readProp "cmc" j
-    types         <- FC.readProp "types" j
-    subtypes      <- runNullOrUndefined <$> FC.readProp  "subtypes" j
-    colors        <- runNullOrUndefined <$> FC.readProp  "colors" j
-    colorRelation <- runNullOrUndefined <$> FC.readProp  "colorRelation" j
-    power         <- runNullOrUndefined <$> FC.readProp  "power" j
-    toughness     <- runNullOrUndefined <$> FC.readProp  "toughness" j
-    loyalty       <- runNullOrUndefined <$> FC.readProp  "loyalty" j
+    rarity        <- runNullOrUndefined <$> FC.readProp "rarity" j
+    oracle        <- runNullOrUndefined <$> FC.readProp "oracle" j
+    manaCost      <- runNullOrUndefined <$> FC.readProp "manaCost" j
+    cmc           <- runNullOrUndefined <$> FC.readProp "cmc" j
+    types         <- runNullOrUndefined <$> FC.readProp "types" j
+    subtypes      <- runNullOrUndefined <$> FC.readProp "subtypes" j
+    colors        <- runNullOrUndefined <$> FC.readProp "colors" j
+    colorRelation <- runNullOrUndefined <$> FC.readProp "colorRelation" j
+    power         <- runNullOrUndefined <$> FC.readProp "power" j
+    toughness     <- runNullOrUndefined <$> FC.readProp "toughness" j
+    loyalty       <- runNullOrUndefined <$> FC.readProp "loyalty" j
     return $ Card { name:           name
-                  , rarity:         Right rarity
+                  , rarity:         rarity
                   , oracle:         oracle
                   , manaCost:       manaCost
                   , cmc:            cmc
