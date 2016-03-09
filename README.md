@@ -1,7 +1,7 @@
 atogatog
 ===
 
-_mtgimage.com, in memoriam_
+_In memoriam cockatrice.de, mtgimage.com, and many other projects killed by WotC_
 
 Atogatog is merely a study in PureScript, please don't deploy it anywhere.
 
