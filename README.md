@@ -1,15 +1,20 @@
 atogatog
 ===
 
+_mtgimage.com, in memoriam_
+
 Atogatog is merely a study in PureScript, please don't deploy it anywhere.
 
 If you deploy it somewhere, please don't tell me about your deployment, so
-that when WotC goes on its usual C&D [blackmail](http://magiccards.info/scans/en/on/127.jpg),
-all of us can honestly tell them that we don't know of any other deployments of this code.
+that when WotC goes turns on community favourite
+C&D-[blackmail](http://magiccards.info/scans/en/on/127.jpg)-shit-fan,
+all of us can honestly tell them that we shut our deployment down and don't
+know of any other deployments of this code.
 
 …
 
-Not like I'm going to deploy this code anywhere anyway. Remember, it's just a study in PureScript.
+Not like I'm going to deploy this code anywhere anyway. Remember, it's
+just a study in PureScript.
 
 LICENSE: WTFPL
 ---
