@@ -1,11 +1,14 @@
-atogatog
+Coretapper
 ===
 
 _In memoriam cockatrice.de, mtgimage.com, and many other projects killed by WotC_
 
-Atogatog is merely a study in PureScript, please don't deploy it anywhere.
+DISCLAIMER
+---
 
-If you deploy it somewhere, please don't tell me about your deployment, so
+Coretapper is merely a study in PureScript, please don't deploy it anywhere.
+
+If you deploy it somewhere, please don't tell us about your deployment, so
 that when WotC goes turns on community favourite
 C&D-[blackmail](http://magiccards.info/scans/en/on/127.jpg)-shit-fan,
 all of us can honestly tell them that we shut our deployment down and don't
