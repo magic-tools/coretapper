@@ -13,9 +13,11 @@ import Data.Map
 import Data.List as L
 import Data.Tuple as T
 
+-- | Filters value based on supplied predicate.
 filter :: forall k v. (Ord k) => (v -> Boolean) -> Map k v -> Map k v
 filter f = filterWithKey (\_ x -> f x)
 
+-- | Filters values, taking into account keys, based on given predicate.
 filterWithKey :: forall k v. (Ord k) => (k -> v -> Boolean) -> Map k v -> Map k v
 filterWithKey f m = filterWithKey_ f (toList m)
 

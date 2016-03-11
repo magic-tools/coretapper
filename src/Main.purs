@@ -24,8 +24,8 @@ type MainEff a = Eff ( console :: CONSOLE
                      , err     :: EXCEPTION
                      , random  :: RANDOM | a )
 
-anyCard :: Card -> Boolean
-anyCard _ = true
+anyCard :: Cards -> Card -> Boolean
+anyCard _ _ = true
 
 p9 :: Cards -> Cards
 p9 cs = MU.filterWithKey (\k _ -> 1 == (L.length $ L.filter ((==) k) p9_)) cs

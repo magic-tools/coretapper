@@ -16,7 +16,7 @@ know of any other deployments of this code.
 
 …
 
-Not like I'm going to deploy this code anywhere anyway. Remember, it's
+Not like we're going to deploy this code anywhere anyway. Remember, it's
 just a study in PureScript.
 
 LICENSE: WTFPL
