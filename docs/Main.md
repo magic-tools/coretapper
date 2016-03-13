@@ -9,7 +9,7 @@ type MainEff a = Eff (console :: CONSOLE, fs :: FS, err :: EXCEPTION, random :: 
 #### `anyCard`
 
 ``` purescript
-anyCard :: Card -> Boolean
+anyCard :: Cards -> Card -> Boolean
 ```
 
 #### `p9`
