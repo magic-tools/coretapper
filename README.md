@@ -19,6 +19,15 @@ know of any other deployments of this code.
 Not like we're going to deploy this code anywhere anyway. Remember, it's
 just a study in PureScript.
 
+ABOUT THIS REPO
+---
+
+This repository defines [a format](https://github.com/magic-tools/coretapper/blob/master/docs/MTG/Cards.md#card)
+of representing cards and sets, also provide [means](https://github.com/magic-tools/coretapper/blob/master/docs/MTG/Pools.md)
+to generate card pools. All that you need to start writing the logic of a certain Magic tool, without worrying about
+the data representation and fetching it. Together with running `getJson.sh` from `farseek`, it should get you
+up and running on your way to writing a groundbreakingly cool tool for Magic the Gathering world in minutes.
+
 LICENSE: WTFPL
 ---
 
