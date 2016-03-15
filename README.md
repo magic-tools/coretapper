@@ -19,7 +19,7 @@ know of any other deployments of this code.
 Not like we're going to deploy this code anywhere anyway. Remember, it's
 just a study in PureScript.
 
-ABOUT THIS REPO
+ABOUT THIS REPOSITORY
 ---
 
 This repository defines [a format](https://github.com/magic-tools/coretapper/blob/master/docs/MTG/Cards.md#card)
