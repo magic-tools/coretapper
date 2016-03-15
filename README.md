@@ -28,6 +28,11 @@ to generate card pools. All that you need to start writing the logic of a certai
 the data representation and fetching it. Together with running `getJson.sh` from `farseek`, it should get you
 up and running on your way to writing a groundbreakingly cool tool for Magic the Gathering world in minutes.
 
+[Example of using it](https://github.com/magic-tools/coretapper/blob/master/src/Main.purs).
+
+Tests? Hm. Nope. Also, all the algorithms are `O(so_slow)`. Pull requests are welcome, especially on the `Data/` side of things.
+If we implement functions exported by modules there properly, odds are, stuff is going to get merged into PureScript libs.
+
 LICENSE: WTFPL
 ---
 

@@ -51,4 +51,4 @@ main = do
   where
     g :: forall a b. (Partial) => Either a b -> b
     g (Right x) = x
-    g _         = unsafeCrashWith "Invalid JSON in priv/"
+    g _         = unsafeCrashWith "Invalid JSON in ~/.farseek. Try running getJson.sh again."
