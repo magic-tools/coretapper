@@ -42,8 +42,8 @@ p9 cs = MU.filterWithKey (\k _ -> 1 == (L.length $ L.filter ((==) k) p9_)) cs
 
 main :: forall e. (MainEff e) Unit
 main = do
-  x <- readTextFile UTF8 "priv/Cards.json"
-  y <- readTextFile UTF8 "priv/Sets.json"
+  x <- readTextFile UTF8 "~/.farseek/Cards.json"
+  y <- readTextFile UTF8 "~/.farseek/Sets.json"
   let cards = (unsafePartial g $ mkCards x)
   let sets  = (unsafePartial g $ mkSets  y)
   singles  <- singletonNamesNames (L.replicate 4 anyCard) $ p9 cards
